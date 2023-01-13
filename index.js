@@ -2,7 +2,7 @@ const { listContacts, getContactById, addContact, removeContact } = require('./c
 const { Command } = require("commander");
 
 const program = new Command();
-require('colors');
+
 program
   .option("-a, --action <type>", "choose action")
   .option("-i, --id <type>", "user id")
@@ -17,31 +17,19 @@ const argv = program.opts();
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
-      const contacts = await listContacts();
-      console.table(contacts);
-      console.log(`Total contacts: ${contacts.length}`.green);
+      listContacts();
       break;
 
     case "get":
-      const contactById = await getContactById(id);
-
-      if (!contactById) {
-        return console.log(`Contact with id ${id} not found`.red);
-      }
-
-      console.table(contactById);
+      getContactById(id);
       break;
 
     case "add":
-      const newContacts = await addContact(name, email, phone);
-      console.table(newContacts);
-      console.log("Successfully added".yellow);
+      addContact(name, email, phone);
       break;
 
     case "remove":
-      const contactsWithOutId = await removeContact(id);
-      console.table(contactsWithOutId);
-      console.log("Successfully deleted".blue);
+      removeContact(id);
       break;
 
     default:
